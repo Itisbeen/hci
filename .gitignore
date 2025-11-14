@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+
+# Anaconda/Virtual environments
+# (아나콘다 가상환경 자체는 프로젝트 폴더 밖에 있으므로 직접 추가할 필요는 없지만,
+# 만약 .venv 같은 가상환경 폴더를 만들었다면 아래 줄의 주석을 푸세요)
+# .venv/
+
+# Database files
+# SQLite 데이터베이스 파일은 절대 올리면 안 됩니다.
+*.db
+*.sqlite3
+
+# macOS specific files
+.DS_Store
+
+# IDE/Editor specific files
+.idea/
+.vscode/
+
+# 민감한 정보를 담을 파일 (API 키, 비밀번호 등)
+.env

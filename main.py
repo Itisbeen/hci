@@ -7,18 +7,6 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 import schemas
 
-# class Report(schemas.ReportBase):
-#     id: int
-#     enterprise_id: int
-
-#     class Config:
-#         orm_mode = True # SQLAlchemy 모델을 Pydantic 모델로 변환
-
-# class PaginatedReprotResponse(schemas.BaseModel):
-#     total_reports: int
-#     total_pages: int
-#     reports: List[Report]
-
 app = FastAPI()
 
 # 1. API 엔드포인트들을 정의합니다. (경로 앞에 /api 를 붙여서 구분하는 것이 좋습니다)
@@ -32,37 +20,6 @@ def read_item(item_id: int, q: str | None = None):
 @app.get("/", response_class=FileResponse)
 async def read_index():
     return "static/theme/index.html"
-
-# @app.get("/api/reports", response_model = PaginatedReprotResponse)
-# def get_reports_with_pagination(
-#     db: Session = Depends(get_db),
-#     search: Optional[str] = None,
-#     page: int = 1,
-#     size: int = Query(10, ge = 1, le = 100)
-# ):
-#     query = db.query(models.Report)
-#     if search:
-#         # 종목명 또는 종목코드에 검색어가 포함된 것을 찾음
-#         query = query.join(models.Enterprise).filter(
-#             (models.Enterprise.name.contains(search)) | 
-#             (models.Enterprise.ticker.contains(search))
-#         )
-
-#     # 3. 검색 조건에 맞는 리포트의 전체 개수 계산 (페이지네이션을 위해)
-#     total_reports = query.count()
-#     # 4. 페이지네이션 계산
-#     offset = (page - 1) * size  # 건너뛸 데이터 수
-#     total_pages = (total_reports // size) + (1 if total_reports % size > 0 else 0)
-
-#     # 5. 실제 데이터를 페이지네이션하여 가져오기
-#     reports = query.order_by(models.Report.report_date.desc()).offset(offset).limit(size).all()
-
-#     # 6. 최종 응답 형태로 만들어서 반환
-#     return {
-#         "total_reports": total_reports,
-#         "total_pages": total_pages,
-#         "reports": reports
-#     }
     
 # 3. "/" 경로를 'static' 디렉토리에 마운트(연결)합니다.
 #    이 코드가 가장 중요합니다. 이 코드로 인해 index.html 안에 있는

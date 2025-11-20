@@ -8,7 +8,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. 로컬 환경 실행 (Local)
-내 컴퓨터에서 바로 확인하려면 아래 명령어를 입력하세요.
+내 컴퓨터에서 바로 확인하려면 아래 명령어를 입력하세요.(패키지 설치 되어있어야 함.)
 
 ```bash
 uvicorn main:app --reload

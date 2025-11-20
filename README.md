@@ -1,6 +1,3 @@
-```markdown
-## 🛠 개발 환경 설정 및 실행 가이드
-
 원활한 패키지 관리를 위해 **가상환경(Virtual Environment)** 사용을 권장합니다.
 
 ### 1. 패키지 설치
@@ -30,4 +27,3 @@ GitHub 저장소의 코드를 기반으로 배포된 실제 웹사이트입니�
 * `HCI-main`, `sneat-1.0.0`
 * `/static/theme/assets`
 * `/static/theme/assets2`
-```

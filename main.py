@@ -1,33 +1,56 @@
-from fastapi import FastAPI, Depends, Query
-# FileResponse는 HTML 같은 파일을 직접 응답으로 보낼 때 사용합니다.
-from fastapi.responses import FileResponse 
-# StaticFiles는 디렉토리 전체를 특정 경로에 연결(마운트)할 때 사용합니다.
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy.orm import Session
-from typing import List, Optional
-import schemas
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-# 1. API 엔드포인트들을 정의합니다. (경로 앞에 /api 를 붙여서 구분하는 것이 좋습니다)
-#    이렇게 하면 프론트엔드 파일 경로와 API 경로가 겹치는 것을 방지할 수 있습니다.
+# 1. Static directory mount
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# 2. Jinja2 Templates configuration
+templates = Jinja2Templates(directory="templates")
+
 @app.get("/api/items/{item_id}")
 def read_item(item_id: int, q: str | None = None):
     return {"item_id": item_id, "query": q}
 
-# 2. 루트 경로("/")에 대한 GET 요청이 오면, 'static' 디렉토리의 'index.html' 파일을 보여줍니다.
-#    이것이 웹사이트의 첫 페이지가 됩니다.
-@app.get("/", response_class=FileResponse)
-async def read_index():
-    return "static/theme/index.html"
-    
-# 3. "/" 경로를 'static' 디렉토리에 마운트(연결)합니다.
-#    이 코드가 가장 중요합니다. 이 코드로 인해 index.html 안에 있는
-#    <link href="/css/style.css"> 와 같은 경로 요청을 FastAPI가 받으면
-#    'static' 폴더 안에서 css/style.css 파일을 찾아서 제공하게 됩니다.
+# 3. Routes serving Jinja2 templates
 
-#    주의: 이 mount 코드는 다른 모든 경로(@app.get 등)보다 뒤에 위치해야 합니다!
-#    FastAPI는 코드가 작성된 순서대로 경로를 확인하기 때문입니다.
-app.mount("/", StaticFiles(directory="static"), name="static")
+@app.get("/", response_class=HTMLResponse)
+async def read_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/index.html", response_class=HTMLResponse)
+async def read_index_alias(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/card.html", response_class=HTMLResponse)
+async def read_card(request: Request):
+    return templates.TemplateResponse("card.html", {"request": request})
+
+@app.get("/data.html", response_class=HTMLResponse)
+async def read_data(request: Request):
+    return templates.TemplateResponse("data.html", {"request": request})
+
+@app.get("/statistic.html", response_class=HTMLResponse)
+async def read_statistic(request: Request):
+    return templates.TemplateResponse("statistic.html", {"request": request})
+
+@app.get("/signin.html", response_class=HTMLResponse)
+async def read_signin(request: Request):
+    return templates.TemplateResponse("signin.html", {"request": request})
+
+@app.get("/register.html", response_class=HTMLResponse)
+async def read_register(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+@app.get("/forgotpw.html", response_class=HTMLResponse)
+async def read_forgotpw(request: Request):
+    return templates.TemplateResponse("forgotpw.html", {"request": request})
+
+@app.get("/tmp.html", response_class=HTMLResponse)
+async def read_tmp(request: Request):
+    return templates.TemplateResponse("tmp.html", {"request": request})
+
+#uvicorn main:app --reload

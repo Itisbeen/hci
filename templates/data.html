@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<style>
+  .text-buy {
+    color: red !important;
+  }
+
+  .text-sell {
+    color: blue !important;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- data -->
 <section class="section pb-0">
@@ -31,18 +43,18 @@
           <tbody>
             {% for report in reports %}
             <!-- [Row {{ loop.index }}] -->
-            {% set color_style = '' %}
+            {% set text_class = '' %}
             {% if report.rating_code == 'Buy' %}
-            {% set color_style = 'color: red;' %}
+            {% set text_class = 'text-buy' %}
             {% elif report.rating_code == 'Sell' %}
-            {% set color_style = 'color: blue;' %}
+            {% set text_class = 'text-sell' %}
             {% endif %}
             <tr data-toggle="collapse" data-target="#detail{{ loop.index }}" style="cursor:pointer;">
               <td>{{ report.written_date }}</td>
               <td>{{ report.author.name if report.author else '-' }}</td>
-              <td style="{{ color_style }}">{{ report.rating_code }}</td>
-              <td style="{{ color_style }}">{{ "{:,}".format(report.fair_price) if report.fair_price else '-' }}</td>
-              <td style="{{ color_style }}">{{ "{:.2f}%".format(report.expected_return * 100) if report.expected_return
+              <td class="{{ text_class }}">{{ report.rating_code }}</td>
+              <td class="{{ text_class }}">{{ "{:,}".format(report.fair_price) if report.fair_price else '-' }}</td>
+              <td class="{{ text_class }}">{{ "{:.2f}%".format(report.expected_return * 100) if report.expected_return
                 else '-' }}</td>
               <td>{{ report.broker.name if report.broker else '-' }}</td>
               <td>

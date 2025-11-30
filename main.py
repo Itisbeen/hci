@@ -91,4 +91,6 @@ async def read_tmp(request: Request):
     return templates.TemplateResponse("tmp.html", {"request": request})
 
 #uvicorn main:app --reload
+#https://hci-q9hs.onrender.com/
+#http://127.0.0.1:8000
 #pipreqs . --encoding=utf8

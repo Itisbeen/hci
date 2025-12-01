@@ -1,26 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- contact -->
+<!-- statistic -->
 <section class="section">
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h2 class="section-title text-primary">Got Any Questions</h2>
-        <p>Submit the form and confirm your email address at <a href="https://formspree.io/">Formspree</a>.</p>
-
-        <form action="#">
-          <input type="text" id="name" name="name" placeholder="Name" class="form-control mb-4 shadow rounded-0">
-          <input type="email" id="mail" name="mail" placeholder="Email" class="form-control mb-4 shadow rounded-0">
-          <input type="text" id="subject" name="subject" placeholder="subject"
-            class="form-control mb-4 shadow rounded-0">
-          <textarea name="message" id="message" placeholder="Message"
-            class="form-control mb-4 shadow rounded-0"></textarea>
-          <button type="submit" value="send" class="btn btn-primary">Send</button>
-        </form>
+        <h2 class="section-title text-primary">Top 30 Expected Returns</h2>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Stock Name</th>
+              <th scope="col">Ticker</th>
+              <th scope="col">Current Price</th>
+              <th scope="col">Avg Fair Price</th>
+              <th scope="col">Avg Expected Return</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for stock in stocks %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>
+                <a href="/data.html?q={{ stock.종목명 }}">{{ stock.종목명 }}</a>
+              </td>
+              <td>{{ stock.종목코드 }}</td>
+              <td>{{ "{:,}".format(stock.현재가격) }}</td>
+              <td>{{ "{:,}".format(stock.평균적정가격) }}</td>
+              <td class="{{ 'text-danger' if stock.평균기대수익률 > 0 else 'text-primary' }}">
+                {{ "{:.2f}%".format(stock.평균기대수익률) }}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </section>
-<!-- /contact -->
+<!-- /statistic -->
 {% endblock %}

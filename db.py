@@ -382,5 +382,48 @@ def create_stock_summary_view():
 if __name__ == "__main__":
     init_db()
     # 네 CSV 파일 경로로 수정
-    load_csv_to_db("리포트_데이터_최종.csv", "pdf_summary_300files.csv")
+    # load_csv_to_db("리포트_데이터_최종.csv", "pdf_summary_300files.csv")
     create_stock_summary_view()
+
+# ============================
+# DB 조회 및 업데이트 (Pipeline용)
+# ============================
+
+def get_all_report_urls() -> list[str]:
+    """DB에 저장된 모든 리포트의 첨부파일 URL을 반환합니다."""
+    session = SessionLocal()
+    try:
+        # attachment_url이 있는 것만 조회
+        urls = session.query(Report.attachment_url).filter(Report.attachment_url.isnot(None)).all()
+        # [('url1',), ('url2',), ...] 형태이므로 리스트로 변환
+        return [u[0] for u in urls if u[0]]
+    finally:
+        session.close()
+
+def update_report_review(filename: str, summary: str, novice: str, expert: str):
+    """
+    파일명(예: 12345.pdf)에서 ID를 추출하여 해당 리포트의 리뷰 내용을 업데이트합니다.
+    """
+    session = SessionLocal()
+    try:
+        # filename: "644830.pdf" -> report_id: "644830"
+        report_id = filename.replace(".pdf", "")
+        
+        # attachment_url에 해당 ID가 포함된 리포트 찾기
+        # 예: https://.../report_idx=644830
+        report = session.query(Report).filter(Report.attachment_url.like(f"%{report_id}%")).first()
+        
+        if report:
+            report.summary = summary
+            report.novice_content = novice
+            report.expert_content = expert
+            session.commit()
+            print(f"Updated review for {filename}")
+        else:
+            print(f"Report not found for {filename}")
+            
+    except Exception as e:
+        session.rollback()
+        print(f"Error updating review for {filename}: {e}")
+    finally:
+        session.close()

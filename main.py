@@ -108,3 +108,7 @@ async def read_tmp(request: Request):
 #https://hci-q9hs.onrender.com/
 #http://127.0.0.1:8000
 #pipreqs . --encoding=utf8
+
+# python scraper.py로 데이터 수집 (최초 1회 혹은 주기적으로 실행)
+# python pipeline.py로 PDF 다운로드 및 리뷰 생성 (필요할 때 실행)
+# uvicorn main:app --reload로 웹 서버 실행 (상시 실행)

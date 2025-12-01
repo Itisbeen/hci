@@ -86,6 +86,9 @@ async def read_card(request: Request):
 
 @app.get("/data.html", response_class=HTMLResponse)
 async def read_data(request: Request, q: str | None = None, db: Session = Depends(get_db)):
+    if q is None:
+        q = "삼성전자"
+
     query = db.query(Report).join(Report.stock).outerjoin(Report.broker).outerjoin(Report.author)
     
     if q:
@@ -102,9 +105,22 @@ async def read_data(request: Request, q: str | None = None, db: Session = Depend
     
     return templates.TemplateResponse("data.html", {"request": request, "reports": reports, "q": q})
 
+import pandas as pd
+
 @app.get("/statistic.html", response_class=HTMLResponse)
 async def read_statistic(request: Request):
-    return templates.TemplateResponse("statistic.html", {"request": request})
+    try:
+        # CSV 파일 읽기
+        df = pd.read_csv("종목별_평균수익률_요약.csv")
+        # 수익률 기준 내림차순 정렬 (이미 되어있을 수 있지만 확실히 하기 위해)
+        df = df.sort_values(by='평균기대수익률', ascending=False)
+        # 상위 30개 추출
+        top_30 = df.head(30).to_dict(orient='records')
+    except Exception as e:
+        print(f"Error reading statistic CSV: {e}")
+        top_30 = []
+
+    return templates.TemplateResponse("statistic.html", {"request": request, "stocks": top_30})
 
 @app.get("/signin.html", response_class=HTMLResponse)
 async def read_signin(request: Request):

@@ -124,14 +124,17 @@
 
                       <!-- Summary Tab -->
                       <div class="tab-pane fade show active" id="content-r{{ loop.index }}-sum" role="tabpanel">
+                        {{ report.summary if report.summary else 'No summary available.' }}
                       </div>
 
                       <!-- Novice Tab -->
                       <div class="tab-pane fade" id="content-r{{ loop.index }}-novice" role="tabpanel">
+                        {{ report.novice_content if report.novice_content else 'No content available.' }}
                       </div>
 
                       <!-- Expert Tab -->
                       <div class="tab-pane fade" id="content-r{{ loop.index }}-expert" role="tabpanel">
+                        {{ report.expert_content if report.expert_content else 'No content available.' }}
                       </div>
 
                     </div>

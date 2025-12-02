@@ -28,7 +28,7 @@
               <td>{{ stock.stock_code }}</td>
               <td>{{ "{:,}".format(stock.current_price) if stock.current_price else '-' }}</td>
               <td>{{ "{:,}".format(stock.avg_fair_price|int) if stock.avg_fair_price else '-' }}</td>
-              <td class="{{ 'text-danger' if stock.avg_expected_return > 0 else 'text-primary' }}">
+              <td class="{{ 'text-danger' if stock.avg_expected_return and stock.avg_expected_return > 0 else 'text-primary' }}">
                 {{ "{:.2f}%".format(stock.avg_expected_return) if stock.avg_expected_return else '-' }}
               </td>
             </tr>

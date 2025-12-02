@@ -20,6 +20,11 @@ def download_pdfs(report_urls):
         tmp = url.split("=")[-1]
         file_path = f"pdf/{tmp}.pdf"
 
+        if os.path.exists(file_path):
+            print(f"다운로드 건너뜀 (이미 존재): {i} ({file_path})")
+            i += 1
+            continue
+
         try:
             print(f"다운로드 시작: {i} ({url})...", end=" ")
             

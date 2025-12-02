@@ -371,7 +371,8 @@ def create_stock_summary_view():
                 ) AS main_rating
             FROM stocks s
             JOIN reports r ON r.stock_id = s.id
-            GROUP BY s.id, s.stock_code, s.stock_name;
+            GROUP BY s.id, s.stock_code, s.stock_name
+            HAVING COUNT(r.id) >= 3;
         """))
     print("stock_summary 뷰 생성 완료")
 
@@ -425,5 +426,22 @@ def update_report_review(filename: str, summary: str, novice: str, expert: str):
     except Exception as e:
         session.rollback()
         print(f"Error updating review for {filename}: {e}")
+    finally:
+        session.close()
+
+def check_review_exists(filename: str) -> bool:
+    """
+    해당 파일명(ID)에 대한 리뷰(summary)가 이미 존재하는지 확인합니다.
+    """
+    session = SessionLocal()
+    try:
+        report_id = filename.replace(".pdf", "")
+        # attachment_url에 해당 ID가 포함되고, summary가 비어있지 않은지 확인
+        exists = session.query(Report).filter(
+            Report.attachment_url.like(f"%{report_id}%"),
+            Report.summary.isnot(None),
+            Report.summary != ""
+        ).first()
+        return exists is not None
     finally:
         session.close()

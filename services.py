@@ -16,6 +16,16 @@ def update_stock_prices():
                 if not df.empty:
                     latest_price = int(df['Close'].iloc[-1])
                     stock.current_price = latest_price
+                    
+                    # 해당 종목의 리포트들도 업데이트 (기대수익률 재계산)
+                    for report in stock.reports:
+                        report.current_price = latest_price
+                        if report.fair_price and latest_price > 0:
+                            # 기대수익률 = (적정주가 - 현재주가) / 현재주가 * 100
+                            expected_return = (report.fair_price - latest_price) / latest_price * 100
+                            report.expected_return = round(expected_return, 2)
+                        else:
+                            report.expected_return = None
             except Exception as e:
                 print(f"Error fetching price for {stock.stock_name} ({stock.stock_code}): {e}")
             

@@ -34,7 +34,18 @@ def remove_noise_and_split_title(title):
         return [in_name, in_code, clean_title]
 
 # 수정
-base_url = "https://consensus.hankyung.com/analysis/list?sdate=2025-08-20&edate=2025-11-20&now_page={}&search_value=&report_type=CO&pagenum=20&search_text=&business_code="
+# from datetime import datetime, timedelta
+
+# # 오늘 날짜와 3개월 전 날짜 계산
+# today = datetime.now()
+# three_months_ago = today - timedelta(days=60)
+
+# sdate = three_months_ago.strftime("%Y-%m-%d")
+# edate = today.strftime("%Y-%m-%d")
+
+# print(f"검색 기간: {sdate} ~ {edate}")
+
+base_url = "https://consensus.hankyung.com/analysis/list?sdate=2025-11-01&edate=2025-12-01&now_page={}&search_value=&report_type=CO&pagenum=20&search_text=&business_code="
 data = []
 print("l")
 max_page = 36
@@ -46,8 +57,9 @@ for page_no in range(1, max_page):
             soup = BeautifulSoup(html, 'lxml')
             print("{}/{}".format(page_no, max_page))
             break
-        except:
-            time.sleep(15 * 60)
+        except Exception as e:
+            print(f"Error fetching page {page_no}: {e}")
+            time.sleep(10) # 15분 대기는 너무 기니까 10초로 줄임
 
     table = soup.find("div", {"class":"table_style01"}).find('table')
     for tr in table.find_all("tr")[1:]: # 1번째 행부터 순회

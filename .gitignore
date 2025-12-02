@@ -11,6 +11,10 @@ __pycache__/
 # SQLite 데이터베이스 파일은 절대 올리면 안 됩니다.
 *.db
 *.sqlite3
+!reports.db
+
+# PDF files
+pdf/
 
 # macOS specific files
 .DS_Store

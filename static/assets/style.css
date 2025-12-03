@@ -135,7 +135,7 @@ h6,
   right: 0;
   bottom: 0;
   background-color: var(--white-color);
-  z-index: 999;
+  z-index: 9000;
   display: flex;
   align-items: center;
   justify-content: center
@@ -435,7 +435,7 @@ pre {
   max-height: 200px;
   overflow: hidden;
   border-radius: 0 0 25px 25px;
-  z-index: 9999;
+  z-index: 1100;
   box-shadow: 0 13px 20px 0 rgba(0, 0, 0, .07)
 }
 
@@ -889,4 +889,190 @@ pre code::-webkit-scrollbar-thumb {
   pointer-events: auto;
   content: "";
   background-color: rgba(0, 0, 0, 0);
+}
+
+/* ===== 로그인 ===== */
+/* --------- 공통 숨김 --------- */
+.hidden {
+  display: none !important;
+}
+
+/* --------- 상단 네비의 로그인 텍스트 버튼 --------- */
+.top-nav__right.login-open-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.top-nav__right.login-open-btn:hover {
+  text-decoration: underline;
+}
+
+/* --------- 모달 전체 배경 --------- */
+.auth-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* --------- 모달 박스 --------- */
+.auth-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 24px 20px;
+  width: 380px;
+  max-width: 90vw;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+}
+
+/* 제목 */
+.auth-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* 닫기 버튼 */
+.auth-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* 패널 (로그인/회원가입) */
+.auth-panel {
+  display: none;
+}
+
+.auth-panel.active {
+  display: block;
+}
+
+/* 폼 입력 */
+.auth-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.auth-label input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.auth-label input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+}
+
+/* 메인 버튼 */
+.auth-primary-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.auth-primary-btn:hover {
+  background: #1d4ed8;
+}
+
+/* 아래 링크 줄 (아이디/비번 찾기 | 이메일로 회원가입) */
+.auth-link-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.auth-link-row.single {
+  justify-content: center;
+}
+
+.link-text {
+  cursor: pointer;
+  color: #374151;
+}
+
+.link-text:hover {
+  text-decoration: underline;
+}
+
+.link-sep {
+  color: #9ca3af;
+}
+
+/* 구분선 */
+.auth-divider {
+  text-align: center;
+  margin: 18px 0 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* 소셜 로그인 */
+.social-login-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.social-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 카카오, 네이버 색상 */
+.social-btn-kakao {
+  background: #fee500;
+  border: none;
+  color: #291a0d;
+}
+
+.social-btn-naver {
+  background: #03c75a;
+  border: none;
+  color: #ffffff;
+}
+
+/* 메시지 */
+.auth-message {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #ef4444;
+  text-align: center;
 }

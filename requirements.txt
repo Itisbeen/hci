@@ -10,3 +10,5 @@ python-multipart==0.0.20
 finance-datareader
 google-generativeai
 lxml
+passlib
+email-validator

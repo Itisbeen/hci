@@ -1,11 +1,13 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, text
-from db import SessionLocal, Report, Stock, Broker, Author, init_db
+from pydantic import BaseModel, EmailStr, constr
+from passlib.context import CryptContext
+from db import SessionLocal, Report, Stock, Broker, Author, User, init_db
 from services import update_stock_prices
 
 
@@ -129,6 +131,74 @@ async def read_forgotpw(request: Request):
 @app.get("/tmp.html", response_class=HTMLResponse)
 async def read_tmp(request: Request):
     return templates.TemplateResponse("tmp.html", {"request": request})
+
+# =========================
+# 비밀번호 해시 설정 (pbkdf2_sha256)
+# =========================
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+def verify_password(password: str, password_hash: str) -> bool:
+    return pwd_context.verify(password, password_hash)
+
+# =========================
+# Pydantic 요청/응답 모델
+# =========================
+class SignupRequest(BaseModel):
+    email: EmailStr
+    password: constr(min_length=6, max_length=80)
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: constr(min_length=6, max_length=80)
+
+class SimpleResponse(BaseModel):
+    message: str
+
+# =========================
+# 회원가입 API
+# =========================
+@app.post("/api/signup", response_model=SimpleResponse)
+def signup(req: SignupRequest, db: Session = Depends(get_db)):
+    existing = db.query(User).filter(User.email == req.email).first()
+    if existing:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="이미 가입된 이메일입니다.",
+        )
+
+    pwd_hash = hash_password(req.password)
+    user = User(email=req.email, password_hash=pwd_hash)
+    db.add(user)
+    db.commit()
+
+    return SimpleResponse(message="회원가입 성공")
+
+# =========================
+# 로그인 API
+# =========================
+@app.post("/api/login", response_model=SimpleResponse)
+def login(req: LoginRequest, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == req.email).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="가입되지 않은 이메일입니다.",
+        )
+
+    if not verify_password(req.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="비밀번호가 일치하지 않습니다.",
+        )
+
+    return SimpleResponse(message="로그인 성공")
+
+@app.get("/login_fragment", response_class=HTMLResponse)
+async def get_login_fragment(request: Request):
+    return templates.TemplateResponse("login_modal.html", {"request": request})
 
 #uvicorn main:app --reload
 #https://hci-q9hs.onrender.com/

@@ -33,6 +33,15 @@ class Stock(Base):
     reports = relationship("Report", back_populates="stock")
 
 
+# 0) User 테이블 (회원가입/로그인용)
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    password_hash = Column(String(255), nullable=False)
+
+
 # 2) 증권사
 class Broker(Base):
     __tablename__ = "brokers"

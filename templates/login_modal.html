@@ -1,0 +1,67 @@
+<div id="login-modal" class="auth-backdrop hidden">
+    <div class="auth-modal">
+        <button type="button" class="auth-close" aria-label="닫기">&times;</button>
+
+        <!-- ★ 탭 제거, 기본은 로그인 화면 ★ -->
+
+        <!-- 로그인 패널 -->
+        <div id="login-panel" class="auth-panel active">
+            <div class="auth-title">로그인</div>
+
+            <form id="login-form">
+                <label class="auth-label">
+                    이메일 아이디 *
+                    <input type="email" name="email" required placeholder="이메일을 입력해 주세요.">
+                </label>
+                <label class="auth-label">
+                    비밀번호 *
+                    <input type="password" name="password" required minlength="6" placeholder="비밀번호를 입력해 주세요.">
+                </label>
+                <button type="submit" class="auth-primary-btn">로그인</button>
+            </form>
+
+            <div class="auth-link-row">
+                <!-- 이걸 누르면 회원가입 패널로 전환 -->
+                <span class="link-text" id="go-signup-link">이메일로 회원가입</span>
+            </div>
+
+            <div class="auth-divider">또는</div>
+
+            <div class="social-login-wrap">
+                <button type="button" id="kakao-login-btn" class="social-btn social-btn-kakao">
+                    카카오로 계속하기
+                </button>
+                <button type="button" id="naver-login-btn" class="social-btn social-btn-naver">
+                    네이버로 계속하기
+                </button>
+            </div>
+        </div>
+
+        <!-- 회원가입 패널 -->
+        <div id="signup-panel" class="auth-panel">
+            <div class="auth-title">이메일로 회원가입</div>
+
+            <form id="signup-form">
+                <label class="auth-label">
+                    이메일 아이디 *
+                    <input type="email" name="email" required placeholder="가입할 이메일을 입력해 주세요.">
+                </label>
+                <label class="auth-label">
+                    비밀번호 *
+                    <input type="password" name="password" required minlength="6" placeholder="비밀번호를 입력해 주세요.">
+                </label>
+                <label class="auth-label">
+                    비밀번호 확인 *
+                    <input type="password" name="password_confirm" required minlength="6" placeholder="다시 한 번 입력해 주세요.">
+                </label>
+                <button type="submit" class="auth-primary-btn">회원가입</button>
+            </form>
+
+            <div class="auth-link-row single">
+                <span class="link-text" id="back-to-login-link">이미 계정이 있으신가요? 로그인하기</span>
+            </div>
+        </div>
+
+        <p class="auth-message" id="auth-message"></p>
+    </div>
+</div>

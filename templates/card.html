@@ -16,7 +16,8 @@
           <div class="col-12 col-md-4 mb-4">
             <div class="card h-100 shadow-sm border-danger position-relative">
               <div class="card-body">
-                <h5 class="card-title text-danger">{{ stock.stock_name }}</h5>
+                <h5 class="card-title text-danger">{{ stock.stock_name }} <small class="text-muted ml-2">{{
+                    stock.stock_code }}</small></h5>
                 <p class="card-text">
                   Price: {{ "{:,}".format(stock.current_price) if stock.current_price else '-' }}<br>
                   Change: <span class="text-danger">{{ "{:+.2f}%".format(stock.daily_change_rate) if
@@ -38,7 +39,8 @@
           <div class="col-12 col-md-4 mb-4">
             <div class="card h-100 shadow-sm border-primary position-relative">
               <div class="card-body">
-                <h5 class="card-title text-primary">{{ stock.stock_name }}</h5>
+                <h5 class="card-title text-primary">{{ stock.stock_name }} <small class="text-muted ml-2">{{
+                    stock.stock_code }}</small></h5>
                 <p class="card-text">
                   Price: {{ "{:,}".format(stock.current_price) if stock.current_price else '-' }}<br>
                   Change: <span class="text-primary">{{ "{:+.2f}%".format(stock.daily_change_rate) if

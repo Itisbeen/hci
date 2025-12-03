@@ -70,7 +70,7 @@
                 {% if report.stock.current_price and report.fair_price %}
                 {% set pl = ((report.fair_price - report.stock.current_price) / report.stock.current_price) * 100 %}
                 {% set pl_class = 'text-sell' if pl < 0 else 'text-buy' %} <span class="{{ pl_class }}">{{
-                  "{:.2f}%".format(pl) }}</span>
+                  "{:+.2f}%".format(pl) }}</span>
                   {% else %}
                   -
                   {% endif %}

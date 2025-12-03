@@ -29,29 +29,46 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-12 text-center">
-				<h2 class="section-title">Find the analyst's pick!</h2>
+				<h2 class="section-title">Recent Analyst Reports</h2>
 			</div>
-			<!-- topic-item -->
-			<div class="col-lg-4 col-sm-6 mb-4">
-				<a href="card.html" class="px-4 py-5 bg-white shadow text-center d-block match-height">
-					<i class="ti-panel icon text-primary d-block mb-4"></i>
-					<h3 class="mb-3 mt-0">Card</h3>
-					<p class="mb-0">Lorem ipsum dolor sit amet ipsum dolor sit amet ipsum dolor sit amet</p>
-				</a>
-			</div>
-			<div class="col-lg-4 col-sm-6 mb-4">
-				<a href="statistic.html" class="px-4 py-5 bg-white shadow text-center d-block match-height">
-					<i class="ti-credit-card icon text-primary d-block mb-4"></i>
-					<h3 class="mb-3 mt-0">Top Rank Inc</h3>
-					<p class="mb-0">Lorem ipsum dolor sit amet ipsum dolor sit amet ipsum dolor sit amet</p>
-				</a>
-			</div>
-			<div class="col-lg-4 col-sm-6 mb-4">
-				<a href="signin.html" class="px-4 py-5 bg-white shadow text-center d-block match-height">
-					<i class="ti-package icon text-primary d-block mb-4"></i>
-					<h3 class="mb-3 mt-0">Empty</h3>
-					<p class="mb-0">Lorem ipsum dolor sit amet ipsum dolor sit amet ipsum dolor sit amet</p>
-				</a>
+			<div class="col-12">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Date</th>
+							<th scope="col">Stock Name</th>
+							<th scope="col">Ticker</th>
+							<th scope="col">Analyst</th>
+							<th scope="col">Expert Firm</th>
+							<th scope="col">Expected Return</th>
+							<th scope="col">Rating</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for report in reports %}
+						<tr>
+							<td>{{ report.written_date }}</td>
+							<td>
+								<a href="/data.html?q={{ report.stock.stock_name }}">{{ report.stock.stock_name }}</a>
+							</td>
+							<td>{{ report.stock.stock_code }}</td>
+							<td>{{ report.author.name if report.author else '-' }}</td>
+							<td>{{ report.broker.name if report.broker else '-' }}</td>
+							{% set expected_return = ((report.fair_price - report.stock.current_price) /
+							report.stock.current_price * 100) if (report.fair_price and report.stock.current_price) else
+							None %}
+							<td
+								class="{{ 'text-danger' if expected_return and expected_return > 0 else 'text-primary' if expected_return and expected_return < 0 else '' }}">
+								{{ "{:+.2f}%".format(expected_return) if expected_return is not none else '-' }}
+							</td>
+							<td
+								class="{{ 'text-danger' if report.rating_code == 'Buy' else 'text-primary' if report.rating_code == 'Sell' else '' }}">
+								{{ report.rating_code }}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

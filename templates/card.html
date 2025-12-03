@@ -7,62 +7,48 @@
     <div class="row">
       <div class="col-12">
         <h2 class="section-title text-primary">Results</h2>
-        <div class="row mt-5"> <!-- mt-5: 위쪽 여백을 줍니다 -->
-
-          <!-- 카드 1개 단위 -->
+        <!-- Top 3 Movers -->
+        <div class="row">
+          <div class="col-12 mb-3">
+            <h4 class="text-danger">Top 3 Gainers</h4>
+          </div>
+          {% for stock in top_3 %}
           <div class="col-12 col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm border-danger position-relative">
               <div class="card-body">
-                <h5 class="card-title">삼성전자</h5>
-                <p class="card-text">시총? 내용 내용 내용</p>
-                <a href="data.html" class="btn btn-primary">이동하기</a>
+                <h5 class="card-title text-danger">{{ stock.stock_name }}</h5>
+                <p class="card-text">
+                  Price: {{ "{:,}".format(stock.current_price) if stock.current_price else '-' }}<br>
+                  Change: <span class="text-danger">{{ "{:+.2f}%".format(stock.daily_change_rate) if
+                    stock.daily_change_rate else '-' }}</span>
+                </p>
+                <a href="/data.html?q={{ stock.stock_name }}" class="stretched-link"></a>
               </div>
             </div>
           </div>
+          {% endfor %}
+        </div>
 
-          <!-- 카드 2개 단위 -->
+        <!-- Bottom 3 Movers -->
+        <div class="row mt-4">
+          <div class="col-12 mb-3">
+            <h4 class="text-primary">Top 3 Losers</h4>
+          </div>
+          {% for stock in bottom_3 %}
           <div class="col-12 col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm border-primary position-relative">
               <div class="card-body">
-                <h5 class="card-title">삼성버스</h5>
-                <p class="card-text">이친구는 버튼 클릭 이동</p>
-                <a href="data.html" class="btn btn-primary">이동하기</a>
+                <h5 class="card-title text-primary">{{ stock.stock_name }}</h5>
+                <p class="card-text">
+                  Price: {{ "{:,}".format(stock.current_price) if stock.current_price else '-' }}<br>
+                  Change: <span class="text-primary">{{ "{:+.2f}%".format(stock.daily_change_rate) if
+                    stock.daily_change_rate else '-' }}</span>
+                </p>
+                <a href="/data.html?q={{ stock.stock_name }}" class="stretched-link"></a>
               </div>
             </div>
           </div>
-
-          <!-- 카드 3개 -->
-          <div class="col-12 col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title">삼성중공업</h5>
-                <p class="card-text">이친구는 버튼 클릭 이동</p>
-                <a href="data.html" class="btn btn-primary">이동하기</a>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- 4번째 카드가 추가되면 자동으로 아랫줄로 내려갑니다 -->
-          <div class="col-12 col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title">삼성제약</h5>
-                <p class="card-text">티커 : 01102</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 55-->
-          <div class="col-12 col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-              <div class="card-body">
-                <h5 class="card-title"><a href="data.html">삼성제약</a></h5>
-                <p class="card-text">티커 : 01102 얘는 제목 클릭하면 이동</p>
-              </div>
-            </div>
-          </div>
-
+          {% endfor %}
         </div>
       </div>
     </div>

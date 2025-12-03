@@ -28,6 +28,7 @@ class Stock(Base):
     stock_name = Column(String(100), nullable=False)
     company_info_url = Column(String(500))
     current_price = Column(Integer, nullable=True)
+    daily_change_rate = Column(Float, nullable=True)
 
     reports = relationship("Report", back_populates="stock")
 

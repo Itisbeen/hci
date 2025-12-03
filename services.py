@@ -15,7 +15,12 @@ def update_stock_prices():
                 df = fdr.DataReader(stock.stock_code, start_date)
                 if not df.empty:
                     latest_price = int(df['Close'].iloc[-1])
+                    latest_price = int(df['Close'].iloc[-1])
                     stock.current_price = latest_price
+                    
+                    # 등락률 업데이트 (Change 컬럼이 소수점 형태 ex: 0.012 -> 1.2%)
+                    if 'Change' in df.columns:
+                        stock.daily_change_rate = round(df['Change'].iloc[-1] * 100, 2)
                     
                     # 해당 종목의 리포트들도 업데이트 (기대수익률 재계산)
                     for report in stock.reports:

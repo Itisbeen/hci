@@ -123,19 +123,19 @@
                     <div class="tab-content bg-white border border-top-0 p-3" id="myTabContentRow{{ loop.index }}">
 
                       <!-- Summary Tab -->
-                      <div class="tab-pane fade show active" id="content-r{{ loop.index }}-sum" role="tabpanel">
-                        {{ report.summary if report.summary else 'No summary available.' }}
-                      </div>
+                      <div class="tab-pane fade show active" id="content-r{{ loop.index }}-sum" role="tabpanel"
+                        style="white-space: pre-wrap;">{{ report.summary if report.summary else 'No summary available.'
+                        }}</div>
 
                       <!-- Novice Tab -->
-                      <div class="tab-pane fade" id="content-r{{ loop.index }}-novice" role="tabpanel">
-                        {{ report.novice_content if report.novice_content else 'No content available.' }}
-                      </div>
+                      <div class="tab-pane fade" id="content-r{{ loop.index }}-novice" role="tabpanel"
+                        style="white-space: pre-wrap;">{{ report.novice_content if report.novice_content else 'No
+                        content available.' }}</div>
 
                       <!-- Expert Tab -->
-                      <div class="tab-pane fade" id="content-r{{ loop.index }}-expert" role="tabpanel">
-                        {{ report.expert_content if report.expert_content else 'No content available.' }}
-                      </div>
+                      <div class="tab-pane fade" id="content-r{{ loop.index }}-expert" role="tabpanel"
+                        style="white-space: pre-wrap;">{{ report.expert_content if report.expert_content else 'No
+                        content available.' }}</div>
 
                     </div>
 

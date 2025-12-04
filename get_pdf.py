@@ -3,8 +3,13 @@ import os
 import time
 
 def download_pdfs(report_urls):
-    if not os.path.exists("pdf"):
-        os.makedirs("pdf")
+    # Use absolute path for the pdf directory
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    pdf_dir = os.path.join(base_dir, "pdf")
+
+    if not os.path.exists(pdf_dir):
+        os.makedirs(pdf_dir)
+        print(f"Created directory: {pdf_dir}")
 
     # 1. 헤더 설정 (브라우저인 척 속임수)
     headers = {
@@ -18,7 +23,7 @@ def download_pdfs(report_urls):
             continue
             
         tmp = url.split("=")[-1]
-        file_path = f"pdf/{tmp}.pdf"
+        file_path = os.path.join(pdf_dir, f"{tmp}.pdf")
 
         if os.path.exists(file_path):
             print(f"다운로드 건너뜀 (이미 존재): {i} ({file_path})")

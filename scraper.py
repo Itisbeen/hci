@@ -45,10 +45,9 @@ def remove_noise_and_split_title(title):
 
 # print(f"검색 기간: {sdate} ~ {edate}")
 
-base_url = "https://consensus.hankyung.com/analysis/list?sdate=2025-11-01&edate=2025-12-01&now_page={}&search_value=&report_type=CO&pagenum=20&search_text=&business_code="
+base_url = "https://consensus.hankyung.com/analysis/list?sdate=2025-11-07&edate=2025-12-07&now_page=1&search_value=&report_type=CO&pagenum=20&search_text=&business_code="
 data = []
-print("l")
-max_page = 36
+max_page = 12
 for page_no in range(1, max_page):
     while True:
         try:
